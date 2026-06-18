@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CSP: solo recursos locales, sin acceso a internet desde el renderer -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <title>NOVA</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+  <!-- ── Barra de título personalizada (draggable) ────────────────────── -->
+  <header class="titlebar" id="titlebar">
+    <div class="titlebar-left">
+      <span class="nova-dot"></span>
+      <span class="nova-name">NOVA</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="tb-btn" id="btn-minimize" title="Minimizar">&#8211;</button>
+      <button class="tb-btn" id="btn-maximize" title="Maximizar">&#9633;</button>
+      <button class="tb-btn tb-close" id="btn-close" title="Ocultar">&#10005;</button>
+    </div>
+  </header>
+
+  <!-- ── Layout principal ──────────────────────────────────────────────── -->
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-view="chat" title="Chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="nav-btn" data-view="history" title="Historial">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-btn" id="btn-clear" title="Nueva conversación">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Zona principal -->
+    <main class="main">
+
+      <!-- Vista: Chat -->
+      <section class="view active" id="view-chat">
+        <div class="messages" id="messages">
+          <!-- Mensaje de bienvenida -->
+          <div class="message nova">
+            <div class="message-bubble">
+              <p>Hola, soy <strong>NOVA</strong>. ¿En qué puedo ayudarte hoy?</p>
+            </div>
+            <span class="message-time">ahora</span>
+          </div>
+        </div>
+
+        <!-- Indicador de escritura -->
+        <div class="typing-indicator" id="typing-indicator" style="display:none">
+          <span></span><span></span><span></span>
+        </div>
+      </section>
+
+      <!-- Vista: Historial -->
+      <section class="view" id="view-history">
+        <div class="history-header">
+          <h2>Historial de conversación</h2>
+          <button class="btn-ghost" id="btn-clear-history">Limpiar todo</button>
+        </div>
+        <div class="messages" id="history-list"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ── Input area ─────────────────────────────────────────────────────── -->
+  <footer class="input-area">
+    <div class="input-wrapper">
+      <textarea
+        id="user-input"
+        placeholder="Escribí tu mensaje... (Enter para enviar, Shift+Enter para nueva línea)"
+        rows="1"
+        autofocus
+      ></textarea>
+      <button class="btn-send" id="btn-send" title="Enviar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+    <div class="input-hint">
+      <span id="model-label">🟢 Ollama · llama3</span>
+    </div>
+  </footer>
+
+  <script src="scripts/chat.js"></script>
+
+</body>
+</html>

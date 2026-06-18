@@ -1,0 +1,30 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno
+.env
+
+# Logs
+*.log
+logs/
+
+# Electron build output
+dist/
+out/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Temporales
+*.tmp
+*.temp

@@ -1,0 +1,21 @@
+{
+  "name": "nova",
+  "version": "1.0.0",
+  "description": "Asistente personal de IA local — NOVA",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "setup-db": "node scripts/setup-db.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ollama": "^0.5.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "electron": "^42.4.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
