@@ -1,5 +1,6 @@
 const aiEngine = require("../.././core/ai/engine");
 const { saveMessage } = require("../../db/repositories/conversation.repo");
+const { extractMemories } = require("../../core/memory/extractor");
 
 /**
  * Registra los handlers IPC relacionados con la IA.
@@ -27,6 +28,9 @@ function register(ipcMain, mainWindow) {
 
       // 4. Guardar respuesta completa en la DB
       await saveMessage({ role: "assistant", content: fullResponse });
+
+      // 5. Extraer y guardar memorias en background (no bloquea la UI)
+      extractMemories(userText, fullResponse).catch(() => {});
 
       return { success: true };
     } catch (error) {

@@ -32,8 +32,7 @@ function createWindow() {
     mainWindow.show()
   })
 
-  // En dev, abrir DevTools
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.DEVTOOLS === 'true') {
     mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
 

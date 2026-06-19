@@ -2,6 +2,7 @@ const { Ollama } = require("ollama");
 const {
   getRecentMessages,
 } = require("../../db/repositories/conversation.repo");
+const { getAllMemories } = require("../../db/repositories/memory.repo");
 
 const ollama = new Ollama({
   host: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
@@ -9,7 +10,6 @@ const ollama = new Ollama({
 
 const MODEL = process.env.OLLAMA_MODEL || "llama3:8b";
 
-// System prompt que define la personalidad de NOVA
 const SYSTEM_PROMPT = `Tu nombre es NOVA, un asistente personal de inteligencia artificial que corre localmente en la computadora del usuario.
 
 Tu personalidad:
@@ -19,11 +19,11 @@ Tu personalidad:
 - Tenés un tono profesional, como un mayordomo desarrollador de confianza con conocimientos SENIOR.
 - Si no sabés algo o no tenes programada esa funcion, lo decís claramente en lugar de inventar información.
 
-Capacidades actuales (Hito 1):
+Capacidades actuales:
 - Mantener conversaciones naturales.
 - Ayudar con programación (JavaScript, Node.js, Python, SQL y más).
 - Explicar conceptos técnicos y no técnicos.
-- Recordar el contexto de la conversación actual.
+- Recordar hechos importantes sobre el usuario entre sesiones.
 
 En próximas versiones podrás: abrir aplicaciones, gestionar archivos, ejecutar scripts, y más.`;
 
@@ -33,12 +33,17 @@ En próximas versiones podrás: abrir aplicaciones, gestionar archivos, ejecutar
  * @param {function} onToken - Callback llamado con cada token recibido
  */
 async function chat(userMessage, onToken) {
-  // Recuperar historial reciente para dar contexto al modelo
-  const history = await getRecentMessages(20);
+  const [history, memories] = await Promise.all([
+    getRecentMessages(20),
+    getAllMemories(),
+  ]);
 
-  // Armar el array de mensajes en formato Ollama/OpenAI
+  const memoryContext = memories.length > 0
+    ? `\n\nHechos que recordás sobre el usuario:\n${memories.map((m) => `- ${m.key}: ${m.value}`).join("\n")}`
+    : "";
+
   const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
+    { role: "system", content: SYSTEM_PROMPT + memoryContext },
     ...history.map((msg) => ({
       role: msg.role,
       content: msg.content,
