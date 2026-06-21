@@ -29,6 +29,10 @@ contextBridge.exposeInMainWorld('nova', {
   maximize: () => ipcRenderer.send('window:maximize'),
   close:    () => ipcRenderer.send('window:close'),
 
+  // ── Voz ────────────────────────────────────────────────────────────────────
+  transcribeAudio: (arrayBuffer) =>
+    ipcRenderer.invoke('voice:transcribe', arrayBuffer),
+
   // ── Utilidades ─────────────────────────────────────────────────────────────
   removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
 })

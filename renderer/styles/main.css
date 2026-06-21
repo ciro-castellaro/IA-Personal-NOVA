@@ -344,6 +344,33 @@ html, body {
 .btn-send:active  { transform: scale(0.95); }
 .btn-send:disabled { opacity: 0.3; cursor: default; }
 
+.btn-mic {
+  background: none;
+  border: none;
+  color: var(--text-2);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.btn-mic:hover { color: var(--text-0); background: var(--bg-3); }
+
+.btn-mic.recording {
+  color: #e74c3c;
+  animation: mic-pulse 1s ease-in-out infinite;
+}
+.btn-mic.transcribing { color: var(--nova-blue); cursor: default; }
+
+@keyframes mic-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
 .input-hint {
   display: flex;
   align-items: center;

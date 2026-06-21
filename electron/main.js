@@ -4,6 +4,7 @@ const path = require('path')
 
 const aiIPC = require('./ipc/ai.ipc')
 const memoryIPC = require('./ipc/memory.ipc')
+const voiceIPC = require('./ipc/voice.ipc')
 
 let mainWindow = null
 let tray = null
@@ -26,6 +27,11 @@ function createWindow() {
   })
 
   mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'))
+
+  // Permitir acceso al micrófono desde el renderer
+  mainWindow.webContents.session.setPermissionRequestHandler((_wc, permission, callback) => {
+    callback(permission === 'media')
+  })
 
   // Mostrar ventana cuando el contenido esté listo
   mainWindow.once('ready-to-show', () => {
@@ -68,6 +74,7 @@ function createTray() {
 function registerIPC() {
   aiIPC.register(ipcMain, mainWindow)
   memoryIPC.register(ipcMain)
+  voiceIPC.register(ipcMain)
 
   // Control de ventana desde el renderer (botones de la titlebar custom)
   ipcMain.on('window:minimize', () => mainWindow?.minimize())
