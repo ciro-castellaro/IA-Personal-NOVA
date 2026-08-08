@@ -1,7 +1,7 @@
-# NOVA — Asistente personal de IA local
+# NOVA — Asistente de IA local
 
 Asistente personal que corre completamente en tu computadora.
-Sin suscripciones, sin datos enviados a la nube (excepto si usás OpenAI).
+Sin suscripciones, sin datos enviados a la nube (excepto si usás la API de OpenAI en lugar de Ollama).
 
 ---
 
